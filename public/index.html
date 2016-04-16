@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+  
+
+<div>
+	<input type="text" id="newTaskName" />
+	<button id="addButton">
+		Add
+	</button>
+</div>
+
+<div id="taskarea">
+
+	<!-- 
+	<input type="checkbox" />
+	<input type="text" />
+	<button>DELETE</button> -->
+
+
+</div>
+
+<script >
+	var taskUrl = "http://134.190.169.102:3000";
+
+$(function(){
+	$("#addButton").click(createTask);
+    $("#newTaskName").keydown(function (e){
+		if (e.keyCode == 13) 
+		{ 
+		  createTask(); 
+		}
+	});
+});
+
+function createTask()
+{
+
+   var taskNameInput = $("#newTaskName");
+	var name = taskNameInput.val();
+	if(!name){
+		return;
+	}
+	taskNameInput.val("");
+	taskNameInput.focus();
+	
+    $.post(taskUrl, {taskName:name}, buildTask);
+    // buildTask({name: name});
+}
+
+function buildTask(taskResponse)
+{ 
+	console.debug("Build task call", taskResponse);
+	var taskaElement = $("<p/>");
+	taskElement.text(taskResponse.name);
+    $('#taskarea').append(taskElement);
+}
+
+// buildTask({
+// 	name: "Test Text"
+// })
+</script>
+
+</body>
+
+</html>
